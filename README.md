@@ -8,7 +8,7 @@ The initial plan was to manually mark edge points of jaw and calculate volume of
 
 **Stage 2:** The next step was to separate the jaw from the rest of the image. I tried multiple approaches; using segmentation algorithms, using the teeth as reference for the jaws, and slicing the image at fixed points. Uassing betweeltimately, the last one showed best results and so we used that. the upper jaw (Maxilla) was bounded on top by the nasal canal, and at the back by the bone of the lower jaw. The lower jaw (Mandible) was bounded at the back at the point where the upper end of the lower jaw began. The maxilla and mandible were separate by a plane passing between the jaws. 
 
-![image](../../images/jaw-volume-calculation/bone.jpeg)
+![image](https://github.com/Sneha-shah/jaw-volume-calculation/blob/main/bone.jpeg)
 
 **Stage 3:** Once these steps were done, the volume of the remaining black and white image was to be found. The simplistic approach implemented was to find the number voxels set to 1. Without an idea of what value could be expected, it was unclear how accurate the results were. Once the pre and post scans were both available, we noticed that the volume difference calculated was erratic; ranging from 5 mm^2 to 2000 mm^2. A few values were also negative, proving that we needed more accurate volume calculation.
 
@@ -18,4 +18,4 @@ The initial plan was to manually mark edge points of jaw and calculate volume of
 
 **Stage 7:** An unexpected suggestion, I did my research on the topic and found that it might work. I am currently working on implementing this solution, and am confident that we will get accurate results using it. In the mean time, the results are also being calculated with the help of Materialise Mimics and Autodesk Meshmixer software.
 
-![image](../../images/jaw-volume-calculation/3.jpeg)
+![image](https://github.com/Sneha-shah/jaw-volume-calculation/blob/main/3.jpeg)
