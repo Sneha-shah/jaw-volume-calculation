@@ -1,6 +1,3 @@
-
-
-
 %% Creating 3d Volume and bone data
 %inputs: Bone_cutoff, Image to read name/path
 
