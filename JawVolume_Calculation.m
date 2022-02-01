@@ -4,7 +4,7 @@
 %% Creating 3d Volume and bone data
 %inputs: Bone_cutoff, Image to read name/path
 
-% Left: Soujanya (values), Ashakiran, Hitaishi
+% Remaining: Soujanya (values), Ashakiran, Hitaishi
 patient_name = 'SOUJANYA';
 % Input variables
 V_pre_name = strcat('VOL_',patient_name,'_BEFORE');
