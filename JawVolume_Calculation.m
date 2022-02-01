@@ -213,34 +213,34 @@ V2 = uint16(jaw_points(single(V_post),bottom_jaw_front,...
     bottom_jaw_back,bottom_jaw_left,bottom_jaw_right,bottom_jaw_top1,...
     bottom_jaw_top2,bottom_jaw_bottom1,bottom_jaw_bottom2,0));
 
-V1a = imadjustn(V1);
+% V1a = imadjustn(V1);
 
-V2a = imadjustn(V2);%,[double(0),max(max(max(V2)))],[double(0),max(max(max(V1)))]);
+% V2a = imadjustn(V2);%,[double(0),max(max(max(V2)))],[double(0),max(max(max(V1)))]);
 
-V3 = uint16(jaw_points(single(V_pre),top_jaw_front,...
-    top_jaw_back+30,top_jaw_left,top_jaw_right,top_jaw_top1+30,...
-    top_jaw_top2+30,top_jaw_bottom1-30,top_jaw_bottom2-30,0));
+% V3 = uint16(jaw_points(single(V_pre),top_jaw_front,...
+%     top_jaw_back+30,top_jaw_left,top_jaw_right,top_jaw_top1+30,...
+%     top_jaw_top2+30,top_jaw_bottom1-30,top_jaw_bottom2-30,0));
 
-V4 = uint16(jaw_points(single(V_post),top_jaw_front,...
-    top_jaw_back+30,top_jaw_left,top_jaw_right,top_jaw_top1+30,...
-    top_jaw_top2+30,top_jaw_bottom1-30,top_jaw_bottom2-30,0));
+% V4 = uint16(jaw_points(single(V_post),top_jaw_front,...
+%     top_jaw_back+30,top_jaw_left,top_jaw_right,top_jaw_top1+30,...
+%     top_jaw_top2+30,top_jaw_bottom1-30,top_jaw_bottom2-30,0));
 
-V3a = imadjustn(V3);
+% V3a = imadjustn(V3);
 
-V4a = imadjustn(V4);%,[double(0),double(max(max(max(V4))))],[double(0),double(max(max(max(V3))))]);
+% V4a = imadjustn(V4);%,[double(0),double(max(max(max(V4))))],[double(0),double(max(max(max(V3))))]);
 
-V22 = fix_intensity(V2,V1);
-V11 = fix_intensity(V1,V2);
+% V22 = fix_intensity(V2,V1);
+% V11 = fix_intensity(V1,V2);
 
-V44 = fix_intensity(V4,V3);
-V33 = fix_intensity(V3,V4a);
+% V44 = fix_intensity(V4,V3);
+% V33 = fix_intensity(V3,V4a);
 
 % BOTTOM JAW
 
 % Cropping to bottom jaw
 [~,~,V_bottom_together] = combine_bone(V_pre_bottom,V_post_bottom_alt_adj,10); 
 % temp = Bone_cutoff*(max(max(max(V1)))/max(max(max(V_pre))));
-% [~,~,V_bottom_together] = combine_bone(V1,V22,temp); 
+% [~,~,V_bottom_together] = combine_bone(V1,V2,temp); 
 V_bottom_together = jaw_points(V_bottom_together,bottom_jaw_front,...
     bottom_jaw_back,bottom_jaw_left,bottom_jaw_right,bottom_jaw_top1,...
     bottom_jaw_top2,bottom_jaw_bottom1,bottom_jaw_bottom2,0);
@@ -276,7 +276,7 @@ d_bottom_difference_mm = d_bottom_difference * 0.027
 
 [~,~,V_top_together] = combine_bone(V_pre_top,V_post_top_alt_adj,10); 
 % temp = Bone_cutoff*(max(max(max(V3)))/max(max(max(V_pre))));
-% [~,~,V_top_together] = combine_bone(V3,V44,temp); 
+% [~,~,V_top_together] = combine_bone(V3,V4,temp); 
 V_top_together = jaw_points(V_top_together,top_jaw_front,...
     top_jaw_back,top_jaw_left,top_jaw_right,top_jaw_top1,...
     top_jaw_top2,top_jaw_bottom1,top_jaw_bottom2,0);
@@ -307,7 +307,7 @@ d_top_difference = d_top_after - d_top_before
 d_top_difference_mm = d_top_difference * 0.027
 
 
-%% Loading
+%% Saving results
 
 file_name = strcat('VREG_',patient_name,'.mat');
 save(file_name,'V_pre','V_pre_top','V_pre_bottom','V_post','V_post_bottom_alt',...
@@ -328,50 +328,35 @@ save(file_name,'V_pre','V_pre_top','V_pre_bottom','V_post','V_post_bottom_alt',.
 % diffdisplay_slice(V_top_together)
 
 
-
-
-%% Testing 
-
-% aaa = V_pre_bottom>500;
-% bbb = imfill(single(aaa), 'holes');
-
-% V1 = uint16(jaw_points(single(V_pre),bottom_jaw_front,...
-%     bottom_jaw_back,bottom_jaw_left,bottom_jaw_right,bottom_jaw_top1,...
-%     bottom_jaw_top2,bottom_jaw_bottom1,bottom_jaw_bottom2,0));
-% 
-% V2 = uint16(jaw_points(single(V_post),bottom_jaw_front,...
-%     bottom_jaw_back,bottom_jaw_left,bottom_jaw_right,bottom_jaw_top1,...
-%     bottom_jaw_top2,bottom_jaw_bottom1,bottom_jaw_bottom2,0));
-
-% display_each_slice((V1>200),(V2>200))
-
-
 %% Calculating volume using boundary
 
-V3 = V1;
-for i = 100:101
-    I = V1(:,:,i);
-    imshow(I)
-    BW = I>1200;
-    BW_filled = imfill(BW,'holes');
-    imshow(BW)
-    dim = size(BW);
-    col = round(dim(2)/2)-90;
-    row = min(find(BW(:,col)));
-    if row
+% V3 = V1;
+% for i = 100:101
+%     I = V1(:,:,i);
+%     imshow(I)
+%     BW = I>1200;
+%     BW_filled = imfill(BW,'holes');
+%     imshow(BW)
+%     dim = size(BW);
+%     col = round(dim(2)/2)-90;
+%     row = min(find(BW(:,col)));
+%     if row
         
-    else 
-        continue
-    end
-    boundary = bwtraceboundary(BW,[row, col],'N');
-    imshow(I)
-    plot(boundary(:,2),boundary(:,1),'g','LineWidth',3);
-    I2 = zeros(557,557);
-    for j = 1:length(boundary)
-        I2(boundary(j,1),boundary(j,2)) = 1;
-    end
-    V3(:,:,i) = I2;
-end
+%     else 
+%         continue
+%     end
+%     boundary = bwtraceboundary(BW,[row, col],'N');
+%     imshow(I)
+%     plot(boundary(:,2),boundary(:,1),'g','LineWidth',3);
+%     I2 = zeros(557,557);
+%     for j = 1:length(boundary)
+%         I2(boundary(j,1),boundary(j,2)) = 1;
+%     end
+%     V3(:,:,i) = I2;
+% end
+
+
+
 
 %% Functions
 
